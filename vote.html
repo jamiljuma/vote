@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Card Download Poll</title>
+    <link rel="stylesheet" href="poll.css">
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.poll-container {
+    background: #ffffff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+p {
+    color: #555;
+    margin: 10px 0 20px;
+}
+
+.poll-options {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="radio"] {
+    margin-right: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.thank-you {
+    font-size: 18px;
+    color: #4CAF50;
+}
+    </style>
+</head>
+<body>
+    <div class="poll-container">
+        <h1>Exam Card Download Feedback</h1>
+        <p>Have you successfully downloaded your exam card?</p>
+        <form id="pollForm">
+            <div class="poll-options">
+                <label>
+                    <input type="radio" name="feedback" value="success" required>
+                    Successfully Downloaded
+                </label>
+                <label>
+                    <input type="radio" name="feedback" value="problem" required>
+                    Still Having Problems
+                </label>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="results" id="results" style="display: none;">
+            <h2>Poll Results:</h2>
+            <p>Successfully Downloaded: <span id="successVotes">0</span> votes</p>
+            <p>Still Having Problems: <span id="problemVotes">0</span> votes</p>
+        </div>
+        <div class="thank-you" id="thankYouMessage" style="display: none;">
+            <p>Thank you for your feedback!</p>
+        </div>
+    </div>
+    <script>
+        // Initialize vote counts
+        let successVotes = 0;
+        let problemVotes = 0;
+
+        const form = document.getElementById("pollForm");
+        const results = document.getElementById("results");
+        const thankYouMessage = document.getElementById("thankYouMessage");
+        const successVotesDisplay = document.getElementById("successVotes");
+        const problemVotesDisplay = document.getElementById("problemVotes");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Get the selected option
+            const selectedOption = document.querySelector('input[name="feedback"]:checked').value;
+
+            // Update vote counts
+            if (selectedOption === "success") {
+                successVotes++;
+            } else if (selectedOption === "problem") {
+                problemVotes++;
+            }
+
+            // Update the results display
+            successVotesDisplay.textContent = successVotes;
+            problemVotesDisplay.textContent = problemVotes;
+
+            // Show thank-you message and results
+            thankYouMessage.style.display = "block";
+            results.style.display = "block";
+            form.style.display = "none";
+        });
+    </script>
+</body>
+</html>
