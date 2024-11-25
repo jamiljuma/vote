@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voting Application Form</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    img{
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+    }
+
+    h2 {
+      margin-top: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    input[type="text"], input[type="email"], input[type="date"], input[type="file"], input[type="password"], input[type="number"] {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+
+    .cancelbtn {
+      background-color: #f44336;
+      padding: 10px 18px;
+      width: auto;
+    }
+
+    .message {
+      font-size: 18px;
+      margin-top: 20px;
+      color: green;
+    }
+
+    .error {
+      font-size: 16px;
+      color: red;
+    }
+
+    .vote-section {
+      margin-top: 20px;
+    }
+
+    .vote-result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .vote-button {
+      background-color: #333;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .vote-result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: black;
+      background: rgba(0,0,0,0.1);
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .appreciation-message {
+      font-size: 20px;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .chosen-candidate {
+      font-size: 18px;
+      color: #333;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Form -->
+  <div id="loginForm">
+    <h2>Login</h2>
+    <div class="container">
+      <form id="loginFormContent" onsubmit="return loginSubmit(event)">
+        <label for="username"><b>Username</b></label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <label for="password"><b>Password</b></label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Eligibility Form (Hidden Initially) -->
+  <div id="eligibilityForm" style="display: none;">
+    <h2>Voter Eligibility Check</h2>
+    <div class="container">
+      <label for="age">Enter your age: </label>
+      <input type="number" id="age" name="age" placeholder="Enter your age">
+      <button type="button" onclick="checkEligibility()">Check Eligibility</button>
+      <p id="eligibilityResult"></p>
+      <div id="eligibilityErrorMessage" class="error-message"></div>
+    </div>
+  </div>
+
+  <!-- Application Form (Hidden Initially) -->
+  <div id="applicationForm" style="display: none;">
+    <h2>Application Form</h2>
+    <div class="container">
+      <form id="userInfoForm" onsubmit="return submitUserInfo(event)">
+        <label for="fullName"><b>Full Name</b></label>
+        <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+        <label for="email"><b>Email</b></label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <label for="dob"><b>Date of Birth</b></label>
+        <input type="date" id="dob" name="dob" required>
+        <label for="nationality"><b>Nationality</b></label>
+        <input type="text" id="nationality" name="nationality" placeholder="Enter your nationality" required>
+        <label for="idImage"><b>Upload Your National ID</b></label>
+        <input type="file" id="idImage" name="idImage" accept="image/*" required>
+        <button type="submit">Submit Info</button>
+      </form>
+
+      <div class="message" id="successMessage" style="display: none;">Your information has been successfully submitted.</div>
+      <div class="error" id="errorMessage" style="display: none;">There was an error submitting your information. Please try again.</div>
+    </div>
+  </div>
+  <div class="container">
+    <h2>Vote for Your Candidate</h2>
+    <div class="candidate">
+      <img src="images/IMG-20241125-WA0002.jpg" alt="Candidate 1">
+      <span>DR WILLIAMS</span>
+      <button onclick="castVote(1)">Vote</button>
+    </div>
+    <div class="candidate">
+      <img src="images/WhatsApp Image 2024-11-22 at 19.34.45_ff4bb8f6.jpg" alt="Candidate 2">
+      <span>H.E Martins</span>
+      <button onclick="castVote(2)">Vote</button>
+    </div>
+    <div class="candidate">
+      <img src="images/WhatsApp Image 2024-11-22 at 19.34.46_9acf59bc.jpg" alt="Candidate 3">
+      <span>DR Kiplagat</span>
+      <button onclick="castVote(3)">Vote</button>
+    </div>
+    <div class="candidate">
+      <img src="images/WhatsApp Image 2024-11-22 at 19.34.46_635e5273.jpg" alt="Candidate 4">
+      <span>DR Willis</span>
+      <button onclick="castVote(4)">Vote</button>
+    </div>
+  </div>
+
+  <!-- Voting Section (Hidden Initially) -->
+  <div id="voteSection" style="display: none;">
+    <h2>Vote for Your Candidate</h2>
+	<h3>KIONGOZI WAKO CHAGUO LAKO</H3>
+    <div class="vote-section">
+      <button class="vote-button" onclick="castVote(1)">Vote for DR WILLIAMS</button>
+      <button class="vote-button" onclick="castVote(2)">Vote for H.E Martins</button>
+      <button class="vote-button" onclick="castVote(3)">Vote for DR Kiplagat</button>
+      <button class="vote-button" onclick="castVote(4)">Vote for DR Willis</button>
+    </div>
+    <div id="voteResult" class="vote-result">
+      <p id="candidate1Votes">Candidate 1 (DR.Williams): 0 Votes</p>
+      <p id="candidate2Votes">Candidate 2 (H.E Martins): 0 Votes</p>
+      <p id="candidate3Votes">Candidate 3 (DR Kiplagat): 0 Votes</p>
+      <p id="candidate4Votes">Candidate 4 (DR Willis): 0 Votes</p>
+    </div>
+    <div id="winner" class="vote-result"></div>
+  </div>
+
+  <!-- Appreciation Message Section (Hidden Initially) -->
+  <div id="appreciationMessage" style="display: none;">
+    <p class="appreciation-message">Thank you for voting!</p>
+    <p id="chosenCandidate" class="chosen-candidate"></p>
+    <p class="appreciation-message">Kiongozi wako chaguo lako!</p>
+  </div>
+
+  <script>
+    let candidateVotes = [0, 0, 0, 0]; // Candidate votes for DR Williams, H.E Martins, DR Kiplagat, DR Willis
+    let totalVotes = 0;
+
+    function loginSubmit(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('eligibilityForm').style.display = 'block';
+      } else {
+        alert('Please enter both username and password');
+      }
+      return false;
+    }
+
+    function checkEligibility() {
+      const age = parseInt(document.getElementById('age').value);
+      const eligibilityResult = document.getElementById('eligibilityResult');
+      const eligibilityErrorMessage = document.getElementById('eligibilityErrorMessage');
+
+      eligibilityErrorMessage.innerText = '';
+      if (isNaN(age)) {
+        eligibilityResult.innerText = '';
+        eligibilityErrorMessage.innerText = 'Please enter a valid age.';
+        return;
+      }
+
+      if (age >= 18) {
+        eligibilityResult.innerText = 'You are eligible to vote!';
+        eligibilityResult.style.color = 'green';
+        document.getElementById('eligibilityForm').style.display = 'none';
+        document.getElementById('applicationForm').style.display = 'block';
+      } else {
+        eligibilityResult.innerText = 'You are not eligible to vote.';
+        eligibilityResult.style.color = 'red';
+        document.getElementById('applicationForm').style.display = 'none';
+      }
+    }
+
+    function submitUserInfo(event) {
+      event.preventDefault();
+
+      const fullName = document.getElementById('fullName').value;
+      const email = document.getElementById('email').value;
+      const dob = document.getElementById('dob').value;
+      const nationality = document.getElementById('nationality').value;
+      const idImage = document.getElementById('idImage').files[0];
+
+      if (!fullName || !email || !dob || !nationality || !idImage) {
+        alert('Please fill all the fields.');
+        return false;
+      }
+
+      document.getElementById('successMessage').style.display = 'block';
+      document.getElementById('errorMessage').style.display = 'none';
+
+      document.getElementById('applicationForm').style.display = 'none';
+      document.getElementById('voteSection').style.display = 'block';
+
+      setTimeout(function() {
+        document.getElementById('successMessage').style.display = 'none';
+      }, 5000);
+
+      return false;
+    }
+
+    function castVote(candidateIndex) {
+      candidateVotes[candidateIndex - 1]++;
+      totalVotes++;
+
+      document.getElementById(`candidate${candidateIndex}Votes`).innerText = `Candidate ${candidateIndex}: ${candidateVotes[candidateIndex - 1]} Votes`;
+
+      const winner = Math.max(...candidateVotes);
+      const winnerIndex = candidateVotes.indexOf(winner) + 1;
+      document.getElementById('winner').innerText = `Winner: Candidate ${winnerIndex}`;
+
+      // Hide vote buttons and show appreciation message
+      document.querySelectorAll('.vote-button').forEach(button => button.style.display = 'none');
+      document.getElementById('appreciationMessage').style.display = 'block';
+
+      // Show the chosen candidate
+      document.getElementById('chosenCandidate').innerText = `You voted for ${getCandidateName(candidateIndex)}`;
+    }
+
+    function getCandidateName(candidateIndex) {
+      const candidates = [
+        'DR WILLIAMS',
+        'H.E Martins',
+        'DR Kiplagat',
+        'DR Willis'
+      ];
+      return candidates[candidateIndex - 1];
+    }
+  </script>
+
+</body>
+</html>
